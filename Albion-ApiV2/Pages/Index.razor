@@ -1,0 +1,330 @@
+﻿@page "/"
+@inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+<h1>Hello, world!</h1>
+<Button Color="Color.Primary" Clicked="@(async () => await HandleRedraw())">Redraw</Button>
+<LineChart @ref="lineChart" TItem="double" />
+
+
+@code {
+    LineChart<double> lineChart;
+    public AlbionPlayer json { get; set; }
+    public List<AlbionPlayer> AlbionPlayers = new List<AlbionPlayer>();
+
+
+
+    
+    
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await lineChart.Clear();
+
+        await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
+    }
+
+    LineChartDataset<double> GetLineChartDataset()
+    {
+        return new LineChartDataset<double>
+        {
+            Label = "# of randoms",
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+            Fill = true,
+            PointRadius = 3,
+            CubicInterpolationMode = "monotone",
+        };
+    }
+
+    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    List<double> RandomizeData()
+    {
+        var r = new Random( DateTime.Now.Millisecond );
+
+        return new List<double> { 
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble() };
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        GetJson();
+    }
+
+
+
+    public async Task GetJson()
+    {
+        Console.WriteLine("Je suis dans GetJson");
+        
+        var jsonString = await JSRuntime.InvokeAsync<string>("localStorage.getItem","PlayerData");
+            
+        
+        
+        var numberOfDays = 0;
+
+        if (jsonString is not null)
+        {
+            Console.WriteLine("Je vais deserialiser le json");
+            json = System.Text.Json.JsonSerializer.Deserialize<AlbionPlayer>(jsonString);
+            Console.WriteLine(json.LifetimeStatistics.Timestamp.Date);
+            var dateDiff = DateTime.Now - json.LifetimeStatistics.Timestamp.Date;
+            Console.WriteLine(dateDiff.Days);
+            numberOfDays = dateDiff.Days;
+            Console.WriteLine(numberOfDays);
+        }
+        if (numberOfDays>1 || jsonString is null)
+        {
+            Console.WriteLine("Je vais chercher le json dans l'api");
+            GetApi();
+        }
+    }
+
+    public async Task GetApi()
+    {
+                    Console.WriteLine("GetApi");
+                    // Ancien lien avec corsproxy.io = https://corsproxy.io/?https://gameinfo.albiononline.com/api/gameinfo/players/ryUIHMHeR4mG3df_dqpKbg
+                    //LeLonGun = https://gameinfo.albiononline.com/api/gameinfo/players/ftlaEJjnR8GtceE7u1U1xg
+                    //Farizak = https://gameinfo.albiononline.com/api/gameinfo/players/ryUIHMHeR4mG3df_dqpKbg
+        var jsonString = await HttpClient.GetStringAsync("https://gameinfo.albiononline.com/api/gameinfo/players/ftlaEJjnR8GtceE7u1U1xg");
+        json = System.Text.Json.JsonSerializer.Deserialize<AlbionPlayer>(jsonString);// j'ai mon objet json
+        Console.WriteLine(jsonString);
+        Console.WriteLine("");
+        
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem","PlayerData", jsonString);
+        
+        GetAlbionPlayerData();
+        AlbionPlayers.Add(json);
+        Console.WriteLine(AlbionPlayers[0].Name);
+        jsonString = System.Text.Json.JsonSerializer.Serialize(AlbionPlayers);
+        PutAlbionPlayerData(jsonString);
+    }
+    
+    // public async Task ApiV2()
+    // {
+    //     var jsonString = await HttpClient.GetStringAsync("https://gameinfo.albiononline.com/api/gameinfo/players/ryUIHMHeR4mG3df_dqpKbg");
+    //     json = System.Text.Json.JsonSerializer.Deserialize<AlbionPlayer>(jsonString);
+    //     Console.WriteLine(json.Name);
+    //     await JSRuntime.InvokeVoidAsync("localStorage.setItem", "PlayerData", jsonString);
+    //
+    // }
+
+    
+
+
+    public async Task GetAlbionPlayerData()
+    {
+        try
+        {
+            
+            var jsonString = await System.IO.File.ReadAllTextAsync("wwwroot/AlbionData.json");
+            var albionPlayer = System.Text.Json.JsonSerializer.Deserialize<List<AlbionPlayer>>(jsonString);
+            AlbionPlayers = albionPlayer;
+            
+            Console.WriteLine("");
+         
+           
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Pas de fichier AlbionData.json");
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
+    public async Task PutAlbionPlayerData(string jsonString)
+    {
+        //Je vais lire le fichier AlbionData.json
+        try
+        {   
+            await System.IO.File.WriteAllTextAsync("wwwroot/AlbionData.json", jsonString);
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Pas de fichier AlbionData.json");
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
+    public async Task GetAlbionPlayerDataBizzar()
+    {
+        try
+        {
+            
+           
+            var jsonString = await System.IO.File.ReadAllTextAsync("wwwroot/AlbionData.json");
+            var albionPlayer = System.Text.Json.JsonSerializer.Deserialize<AlbionPlayer>(jsonString);
+            AlbionPlayers = new List<AlbionPlayer> {albionPlayer};
+            
+            Console.WriteLine("");
+         
+            Console.WriteLine(AlbionPlayers[0].Name);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Pas de fichier AlbionData.json");
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+
+
+
+
+        
+        
+        
+        
+    
+
+
+
+
+
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+    public class All
+    {
+        public int Total { get; set; }
+        public int Royal { get; set; }
+        public int Outlands { get; set; }
+        public int Avalon { get; set; }
+    }
+
+    public class Crafting
+    {
+        public int Total { get; set; }
+        public int Royal { get; set; }
+        public int Outlands { get; set; }
+        public int Avalon { get; set; }
+    }
+
+    public class Equipment
+    {
+        public object MainHand { get; set; }
+        public object OffHand { get; set; }
+        public object Head { get; set; }
+        public object Armor { get; set; }
+        public object Shoes { get; set; }
+        public object Bag { get; set; }
+        public object Cape { get; set; }
+        public object Mount { get; set; }
+        public object Potion { get; set; }
+        public object Food { get; set; }
+    }
+
+    public class Fiber
+    {
+        public int Total { get; set; }
+        public int Royal { get; set; }
+        public int Outlands { get; set; }
+        public int Avalon { get; set; }
+    }
+
+    public class Gathering
+    {
+        public Fiber Fiber { get; set; }
+        public Hide Hide { get; set; }
+        public Ore Ore { get; set; }
+        public Rock Rock { get; set; }
+        public Wood Wood { get; set; }
+        public All All { get; set; }
+    }
+
+    public class Hide
+    {
+        public int Total { get; set; }
+        public int Royal { get; set; }
+        public int Outlands { get; set; }
+        public int Avalon { get; set; }
+    }
+
+    public class LifetimeStatistics
+    {
+        public PvE PvE { get; set; }
+        public Gathering Gathering { get; set; }
+        public Crafting Crafting { get; set; }
+        public int CrystalLeague { get; set; }
+        public int FishingFame { get; set; }
+        public int FarmingFame { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+
+    public class Ore
+    {
+        public int Total { get; set; }
+        public int Royal { get; set; }
+        public int Outlands { get; set; }
+        public int Avalon { get; set; }
+    }
+
+    public class PvE
+    {
+        public int Total { get; set; }
+        public int Royal { get; set; }
+        public int Outlands { get; set; }
+        public int Avalon { get; set; }
+        public int Hellgate { get; set; }
+        public int CorruptedDungeon { get; set; }
+        public int Mists { get; set; }
+    }
+
+    public class Rock
+    {
+        public int Total { get; set; }
+        public int Royal { get; set; }
+        public int Outlands { get; set; }
+        public int Avalon { get; set; }
+    }
+
+    public class AlbionPlayer
+    {
+        public double AverageItemPower { get; set; }
+        public Equipment Equipment { get; set; }
+        public List<object> Inventory { get; set; }
+        public string Name { get; set; }
+        public string Id { get; set; }
+        public string GuildName { get; set; }
+        public string GuildId { get; set; }
+        public string AllianceName { get; set; }
+        public string AllianceId { get; set; }
+        public string AllianceTag { get; set; }
+        public string Avatar { get; set; }
+        public string AvatarRing { get; set; }
+        public int DeathFame { get; set; }
+        public int KillFame { get; set; }
+        public double FameRatio { get; set; }
+        public LifetimeStatistics LifetimeStatistics { get; set; }
+    }
+
+    public class Wood
+    {
+        public int Total { get; set; }
+        public int Royal { get; set; }
+        public int Outlands { get; set; }
+        public int Avalon { get; set; }
+    }
+
+
+}
