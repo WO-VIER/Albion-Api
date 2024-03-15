@@ -47,7 +47,8 @@
 
                 AlbionPlayerJsonString = System.Text.Json.JsonSerializer.Serialize(AlbionPlayers);
                 await PutAlbionPlayerData(AlbionPlayerJsonString);
-                
+                await UpdateChart();
+
             }
             catch (Exception e)
             {
@@ -69,43 +70,17 @@
 
         return jsonString1 == jsonString2;
     }
-
-
-    /*protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            
-            await UpdateChart();
-            Console.WriteLine(AlbionPlayerJsonString);
-            
-            StateHasChanged();
-            Console.WriteLine(AlbionPlayers.Count);
-        }
-    }*/
-
+    
     async Task UpdateChart()
     {
         await lineChart.Clear();
+
+        var pveData = AlbionPlayers.Select(p => (double)p.LifetimeStatistics.PvE.Total).ToList();
+        var fishingFameData = AlbionPlayers.Select(p => (double)p.LifetimeStatistics.FishingFame).ToList();
+        var timeData = AlbionPlayers.Select(p => p.LifetimeStatistics.Timestamp.Date).ToList();
+        //timeData en tablequ de string
         
-        Dictionary<DateTime, double>pveData = AlbionPlayers.ToDictionary(p => p.LifetimeStatistics.Timestamp.Date, p => (double)p.LifetimeStatistics.PvE.Total);
-        Dictionary<DateTime, double>fishingFameData = AlbionPlayers.ToDictionary(p => p.LifetimeStatistics.Timestamp.Date, p => (double)p.LifetimeStatistics.FishingFame);
-        
-        pveData = pveData.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
-        fishingFameData = fishingFameData.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value);
-       
-        
-        foreach (var VARIABLE in pveData)
-        {
-            Console.Write(VARIABLE.Value+" ");
-        }
-        
-        
-        foreach (var VARIABLE in fishingFameData)
-        {
-            Console.Write(VARIABLE.Value+" ");
-        }
-        /*var pveDataset = new LineChartDataset<double>
+        var pveDataset = new LineChartDataset<double>
         {
             Label = "PvE Total",
             Data = pveData,
@@ -121,12 +96,26 @@
             BackgroundColor = ChartColor.FromRgba(54, 162, 235, 0.2f),
             BorderColor = ChartColor.FromRgba(54, 162, 235, 1f),
             Fill = true
-        };*/
+        };
 
-        // await lineChart.AddDataSet(pveDataset);
-        // await lineChart.AddDataSet(fishingFameDataset);
-        await lineChart.Update();
+        await lineChart.AddLabelsDatasetsAndUpdate(new[] { timeData }, new LineChartDataset<double> [] { pveDataset, fishingFameDataset });
     }
+
+
+    /*protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            
+            await UpdateChart();
+            Console.WriteLine(AlbionPlayerJsonString);
+            
+            StateHasChanged();
+            Console.WriteLine(AlbionPlayers.Count);
+        }
+    }*/
+
+    
 
 
 
