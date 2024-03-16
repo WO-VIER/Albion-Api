@@ -855,11 +855,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\virgi\\RiderProjects\\Albion-ApiV2\\Albion-ApiV2\\Albion-ApiV2.csproj",
+      "projectUniqueName": "C:\\Users\\virgi\\RiderProjects\\Albion-Api\\Albion-ApiV2\\Albion-ApiV2.csproj",
       "projectName": "Albion-ApiV2",
-      "projectPath": "C:\\Users\\virgi\\RiderProjects\\Albion-ApiV2\\Albion-ApiV2\\Albion-ApiV2.csproj",
+      "projectPath": "C:\\Users\\virgi\\RiderProjects\\Albion-Api\\Albion-ApiV2\\Albion-ApiV2.csproj",
       "packagesPath": "C:\\Users\\virgi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\virgi\\RiderProjects\\Albion-ApiV2\\Albion-ApiV2\\obj\\",
+      "outputPath": "C:\\Users\\virgi\\RiderProjects\\Albion-Api\\Albion-ApiV2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\virgi\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -910,6 +910,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[7.0.16, 7.0.16]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -918,7 +936,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -31,7 +31,7 @@
     public List<AlbionPlayer> AlbionPlayers { get; set; } = new List<AlbionPlayer>(); // Micro DB 
     public string jsonString { get; set; }
     public string AlbionPlayerJsonString { get; set; }
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -40,10 +40,7 @@
             {
                 await GetJson();
                 await GetAlbionPlayerData();
-                Console.WriteLine(AlbionPlayers[0].Name);
-                Console.WriteLine(AlbionPlayers[0].LifetimeStatistics.PvE.Total);
-                Console.WriteLine(AlbionPlayers[1].Name);
-                Console.WriteLine(AlbionPlayers[1].LifetimeStatistics.PvE.Total);
+                
 
                 AlbionPlayerJsonString = System.Text.Json.JsonSerializer.Serialize(AlbionPlayers);
                 await PutAlbionPlayerData(AlbionPlayerJsonString);
@@ -59,9 +56,9 @@
             StateHasChanged();
         }
 
-        
+
     }
-        
+
 
     public bool areEquals(AlbionPlayer player1, AlbionPlayer player2)
     {
@@ -70,14 +67,72 @@
 
         return jsonString1 == jsonString2;
     }
-    
+
     async Task UpdateChart()
+    {
+        await lineChart.Clear();
+
+
+        Console.WriteLine("");
+
+
+        List<Tuple<double, double, DateTime>> data = AlbionPlayers.Select(p => new Tuple<double, double, DateTime>(
+            (double)p.LifetimeStatistics.PvE.Total,
+            (double)p.LifetimeStatistics.FishingFame,
+            p.LifetimeStatistics.Timestamp.Date
+        )).ToList();
+
+        data.Sort((x, y) => x.Item3.CompareTo(y.Item3));
+
+
+
+
+        var pveDataset = new LineChartDataset<double>
+        {
+            Label = "PvE Total",
+            Data = data.Select(d => d.Item1).ToList(),
+            BackgroundColor = ChartColor.FromRgba(255, 99, 132, 0.2f),
+            BorderColor = ChartColor.FromRgba(255, 99, 132, 1f),
+            Fill = true
+        };
+
+        var fishingFameDataset = new LineChartDataset<double>
+        {
+            Label = "Fishing Fame",
+            Data = data.Select(d => d.Item2).ToList(),
+            BackgroundColor = ChartColor.FromRgba(54, 162, 235, 0.2f),
+            BorderColor = ChartColor.FromRgba(54, 162, 235, 1f),
+            Fill = true
+        };
+
+        await lineChart.AddLabelsDatasetsAndUpdate(data.Select(d => d.Item3.ToString("d")).ToList(), pveDataset, fishingFameDataset);
+    }
+    
+    /*async Task UpdateChart()
     {
         await lineChart.Clear();
 
         var pveData = AlbionPlayers.Select(p => (double)p.LifetimeStatistics.PvE.Total).ToList();
         var fishingFameData = AlbionPlayers.Select(p => (double)p.LifetimeStatistics.FishingFame).ToList();
         var timeData = AlbionPlayers.Select(p => p.LifetimeStatistics.Timestamp.Date).ToList();
+        pveData.Sort();fishingFameData.Sort(); timeData.Sort();
+        
+        Console.WriteLine(" ");
+        foreach (var VARIABLE in pveData)
+        {
+            Console.Write(VARIABLE+" ");
+        }
+        Console.WriteLine(" ");
+
+        foreach (var VARIABLE in fishingFameData)
+        {
+            Console.Write(VARIABLE+" ");
+        }
+        Console.WriteLine("");
+        foreach (var VARIABLE in timeData)
+        {
+            Console.Write(VARIABLE+" ");
+        }
         //timeData en tablequ de string
         
         var pveDataset = new LineChartDataset<double>
@@ -98,8 +153,8 @@
             Fill = true
         };
 
-        await lineChart.AddLabelsDatasetsAndUpdate(new[] { timeData }, new LineChartDataset<double> [] { pveDataset, fishingFameDataset });
-    }
+        await lineChart.AddLabelsDatasetsAndUpdate(t);
+    }*/
 
 
     /*protected override async Task OnAfterRenderAsync(bool firstRender)

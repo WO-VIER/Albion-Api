@@ -1,11 +1,11 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\virgi\\RiderProjects\\Albion-ApiV2\\Albion-ApiV2\\wwwroot\\AlbionData.json",
+      "Id": "C:\\Users\\virgi\\RiderProjects\\Albion-Api\\Albion-ApiV2\\wwwroot\\AlbionData.json",
       "PackagePath": "staticwebassets\\AlbionData.json"
     },
     {
-      "Id": "C:\\Users\\virgi\\RiderProjects\\Albion-ApiV2\\Albion-ApiV2\\wwwroot\\css\\site.css",
+      "Id": "C:\\Users\\virgi\\RiderProjects\\Albion-Api\\Albion-ApiV2\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
