@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zXEMNcFl1J/68ZdHIVe6a/pHdGW5kBDEw8pKNVAbpH9qqE3CzhYyp9njlfFCklDsZotQxIKjYhPLog/DEvS6aA==",
+  "dgSpecHash": "/6vEWxetnKmCJ/PbuSPAdV6puBfsfBHWBsWepkS9Wtk9p4j6bs17gfnqF5UzgI0wNp+xbuzgAImztlGIWu8XfQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\virgi\\RiderProjects\\Albion-Api\\Albion-ApiV2\\Albion-ApiV2.csproj",
   "expectedPackageFiles": [
@@ -22,11 +22,7 @@
     "C:\\Users\\virgi\\.nuget\\packages\\microsoft.extensions.options\\7.0.1\\microsoft.extensions.options.7.0.1.nupkg.sha512",
     "C:\\Users\\virgi\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "C:\\Users\\virgi\\.nuget\\packages\\microsoft.jsinterop\\7.0.16\\microsoft.jsinterop.7.0.16.nupkg.sha512",
-    "C:\\Users\\virgi\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512",
-    "C:\\Users\\virgi\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.16\\microsoft.netcore.app.ref.7.0.16.nupkg.sha512",
-    "C:\\Users\\virgi\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.16\\microsoft.windowsdesktop.app.ref.7.0.16.nupkg.sha512",
-    "C:\\Users\\virgi\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.16\\microsoft.aspnetcore.app.ref.7.0.16.nupkg.sha512",
-    "C:\\Users\\virgi\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.16\\microsoft.netcore.app.host.win-x64.7.0.16.nupkg.sha512"
+    "C:\\Users\\virgi\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

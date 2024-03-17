@@ -72,7 +72,6 @@ C:\Users\virgi\RiderProjects\Albion-Api\Albion-ApiV2\obj\Debug\net7.0\Albion-Api
 C:\Users\virgi\RiderProjects\Albion-Api\Albion-ApiV2\obj\Debug\net7.0\Albion-ApiV2.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\virgi\RiderProjects\Albion-Api\Albion-ApiV2\obj\Debug\net7.0\Albion-ApiV2.RazorAssemblyInfo.cache
 C:\Users\virgi\RiderProjects\Albion-Api\Albion-ApiV2\obj\Debug\net7.0\Albion-ApiV2.RazorAssemblyInfo.cs
-C:\Users\virgi\RiderProjects\Albion-Api\Albion-ApiV2\obj\Debug\net7.0\Albion-ApiV2.sourcelink.json
 C:\Users\virgi\RiderProjects\Albion-Api\Albion-ApiV2\obj\Debug\net7.0\staticwebassets.build.json
 C:\Users\virgi\RiderProjects\Albion-Api\Albion-ApiV2\obj\Debug\net7.0\staticwebassets.development.json
 C:\Users\virgi\RiderProjects\Albion-Api\Albion-ApiV2\obj\Debug\net7.0\staticwebassets\msbuild.Albion-ApiV2.Microsoft.AspNetCore.StaticWebAssets.props

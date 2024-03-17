@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Albion-ApiV2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+23892cfed164e4e8aaa5646861d784f0d43f54fe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Albion-ApiV2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Albion-ApiV2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
