@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Albion-ApiV2", "Albion-ApiV2\Albion-ApiV2.csproj", "{9C339D01-DEEB-42F3-8BAD-B95974888F12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAlbion_ApiV2", "TestAlbion_ApiV2\TestAlbion_ApiV2.csproj", "{E3073BF0-D151-4FB3-A2DF-E507CE3C84A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{9C339D01-DEEB-42F3-8BAD-B95974888F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C339D01-DEEB-42F3-8BAD-B95974888F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C339D01-DEEB-42F3-8BAD-B95974888F12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3073BF0-D151-4FB3-A2DF-E507CE3C84A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3073BF0-D151-4FB3-A2DF-E507CE3C84A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3073BF0-D151-4FB3-A2DF-E507CE3C84A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3073BF0-D151-4FB3-A2DF-E507CE3C84A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
