@@ -120,3 +120,16 @@ C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\obj\Debug\net7.0\refint
 C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\obj\Debug\net7.0\TestAlbion_ApiV2.pdb
 C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\obj\Debug\net7.0\TestAlbion_ApiV2.genruntimeconfig.cache
 C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\obj\Debug\net7.0\ref\TestAlbion_ApiV2.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\AngleSharp.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\AngleSharp.Css.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\AngleSharp.Diffing.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Bunit.Core.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Bunit.Web.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Castle.Core.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Microsoft.AspNetCore.Components.Authorization.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Microsoft.AspNetCore.Components.WebAssembly.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Microsoft.Extensions.Localization.Abstractions.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Microsoft.JSInterop.WebAssembly.dll
+C:\Users\virgi\RiderProjects\Albion-Api\TestAlbion_ApiV2\bin\Debug\net7.0\Moq.dll

@@ -1,36 +1,27 @@
 ﻿@page "/"
-@using Blazorise.Extensions
-@using System.Text.Json
-@inject HttpClient HttpClient
-@inject IJSRuntime JSRuntime
 
-<h1>Hello, world!</h1>
+@using System.Text.Json
+
+
+<h1 style="text-align: center">Albion-Api</h1>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1"></script>
 <LineChart @ref="lineChart" TItem="double" />
-@if (AlbionPlayers is null)
-    {
-        <p>AlbionPlayers is null</p>
-    }else
-    {
-        <p>@AlbionPlayers.Count</p>
-    }
-@foreach (var variable in AlbionPlayers)
-{
-    <p>@variable.Name</p>
-    <p>@variable.LifetimeStatistics.PvE.Total</p>
-    <p>@variable.LifetimeStatistics.FishingFame</p>
-    <p>@variable.LifetimeStatistics.Timestamp.Date</p>
-}
+
+
 
 
 
 
 @code {
+    [Inject] public HttpClient HttpClient { get; set; }
+    [Inject] public IJSRuntime JSRuntime { get; set; }
     public LineChart<double> lineChart;
     public AlbionPlayer json { get; set; } //fresh data from the api or LocalStorage
     public List<AlbionPlayer> AlbionPlayers { get; set; } = new List<AlbionPlayer>(); // Micro DB 
     public string jsonString { get; set; }
     public string AlbionPlayerJsonString { get; set; }
+    
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -110,67 +101,7 @@
         await lineChart.AddLabelsDatasetsAndUpdate(data.Select(d => d.Item3.ToString("d")).ToList(), pveDataset, fishingFameDataset);
     }
     
-    /*async Task UpdateChart()
-    {
-        await lineChart.Clear();
-
-        var pveData = AlbionPlayers.Select(p => (double)p.LifetimeStatistics.PvE.Total).ToList();
-        var fishingFameData = AlbionPlayers.Select(p => (double)p.LifetimeStatistics.FishingFame).ToList();
-        var timeData = AlbionPlayers.Select(p => p.LifetimeStatistics.Timestamp.Date).ToList();
-        pveData.Sort();fishingFameData.Sort(); timeData.Sort();
-        
-        Console.WriteLine(" ");
-        foreach (var VARIABLE in pveData)
-        {
-            Console.Write(VARIABLE+" ");
-        }
-        Console.WriteLine(" ");
-
-        foreach (var VARIABLE in fishingFameData)
-        {
-            Console.Write(VARIABLE+" ");
-        }
-        Console.WriteLine("");
-        foreach (var VARIABLE in timeData)
-        {
-            Console.Write(VARIABLE+" ");
-        }
-        //timeData en tablequ de string
-        
-        var pveDataset = new LineChartDataset<double>
-        {
-            Label = "PvE Total",
-            Data = pveData,
-            BackgroundColor = ChartColor.FromRgba(255, 99, 132, 0.2f),
-            BorderColor = ChartColor.FromRgba(255, 99, 132, 1f),
-            Fill = true
-        };
-
-        var fishingFameDataset = new LineChartDataset<double>
-        {
-            Label = "Fishing Fame",
-            Data = fishingFameData,
-            BackgroundColor = ChartColor.FromRgba(54, 162, 235, 0.2f),
-            BorderColor = ChartColor.FromRgba(54, 162, 235, 1f),
-            Fill = true
-        };
-
-        await lineChart.AddLabelsDatasetsAndUpdate(t);
-    }*/
-
-
-    /*protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            
-            await UpdateChart();
-            Console.WriteLine(AlbionPlayerJsonString);
-            
-            StateHasChanged();
-            Console.WriteLine(AlbionPlayers.Count);
-        }
-    }*/
+    
 
     
 
@@ -189,7 +120,7 @@
         if (jsonString!=null)
         {
             Console.WriteLine("Je vais deserialiser le json");
-            json = System.Text.Json.JsonSerializer.Deserialize<AlbionPlayer>(jsonString);
+            json = JsonSerializer.Deserialize<AlbionPlayer>(jsonString);
             Console.WriteLine(json.LifetimeStatistics.Timestamp.Date);
             var dateDiff = DateTime.Now - json.LifetimeStatistics.Timestamp.Date;
             Console.WriteLine(dateDiff.Days);
@@ -211,12 +142,11 @@
         //LeLonGun = https://gameinfo.albiononline.com/api/gameinfo/players/ftlaEJjnR8GtceE7u1U1xg
         //Farizak = https://gameinfo.albiononline.com/api/gameinfo/players/ryUIHMHeR4mG3df_dqpKbg
         jsonString = await HttpClient.GetStringAsync("https://gameinfo.albiononline.com/api/gameinfo/players/ftlaEJjnR8GtceE7u1U1xg");
-        json = System.Text.Json.JsonSerializer.Deserialize<AlbionPlayer>(jsonString); // j'ai mon objet json
+        json = JsonSerializer.Deserialize<AlbionPlayer>(jsonString); // j'ai mon objet json
         //Console.WriteLine(jsonString);
         Console.WriteLine("");
 
         await JSRuntime.InvokeVoidAsync("localStorage.setItem", "PlayerData", jsonString);
-
         
         // Je Déserialise le fichier en une liste de
         // et vérifie la taille si =>10 je pop le premère
@@ -243,8 +173,8 @@
         {
             
 
-            AlbionPlayerJsonString = await System.IO.File.ReadAllTextAsync("wwwroot/AlbionData.json");
-            var albionPlayer = System.Text.Json.JsonSerializer.Deserialize<List<AlbionPlayer>>(AlbionPlayerJsonString);
+            AlbionPlayerJsonString = await File.ReadAllTextAsync("wwwroot/AlbionData.json");
+            var albionPlayer = JsonSerializer.Deserialize<List<AlbionPlayer>>(AlbionPlayerJsonString);
             if (albionPlayer.Count >= 10)
             {
                 albionPlayer.RemoveAt(0);
@@ -271,6 +201,7 @@
             // Initialisez AlbionPlayers à une liste vide pour éviter les problèmes ultérieurs.
             AlbionPlayers = new List<AlbionPlayer>();
         }
+       
     }
 
     public async Task PutAlbionPlayerData(string jsonString)
@@ -436,4 +367,3 @@
     }
 
 }
-<p>@AlbionPlayerJsonString</p>
